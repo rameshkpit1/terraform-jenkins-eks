@@ -15,64 +15,9 @@ pipeline {
         }
         stage('Initializing Terraform'){
             steps{
-                  withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws_credentials_for_eks', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                        dir('EKS'){
-                            
-                        sh 'terraform init'
-                        }
-                  }
-
-                    }
+                withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws_credentials_for_eks', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                   sh' "echo "hello" '
                 }
             }
-        }
-        stage('Formatting Terraform Code'){
-            steps{
-                script{
-                    dir('EKS'){
-                        sh 'terraform fmt'
-                    }
-                }
-            }
-        }
-        stage('Validating Terraform'){
-            steps{
-                script{
-                    dir('EKS'){
-                        sh 'terraform validate'
-                    }
-                }
-            }
-        }
-        stage('Previewing the Infra using Terraform'){
-            steps{
-                script{
-                    dir('EKS'){
-                        sh 'terraform plan'
-                    }
-                    input(message: "Are you sure to proceed?", ok: "Proceed")
-                }
-            }
-        }
-        stage('Creating/Destroying an EKS Cluster'){
-            steps{
-                script{
-                    dir('EKS') {
-                        sh 'terraform $action --auto-approve'
-                    }
-                }
-            }
-        }
-        stage('Deploying Nginx Application') {
-            steps{
-                script{
-                    dir('EKS/ConfigurationFiles') {
-                        sh 'aws eks update-kubeconfig --name my-eks-cluster'
-                        sh 'kubectl apply -f deployment.yaml'
-                        sh 'kubectl apply -f service.yaml'
-                    }
-                }
-            }
-        }
     }
 }
