@@ -82,7 +82,7 @@ pipeline {
                   if (params.EKS_DEPLOY){
                      withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws_credentials_for_eks', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                        dir('EKS/ConfigurationFiles'){
-                         sh 'aws eks update-kubeconfig  --name "${env.cluster_name}"'
+                         sh 'aws eks update-kubeconfig  --name ${env.cluster_name}'
                          sh ' kubectl get pods '
                        }
                      }
