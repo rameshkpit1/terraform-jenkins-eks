@@ -52,12 +52,13 @@ pipeline {
                        dir('EKS'){
                          sh 'terraform apply'
                          sh ' echo "welcome----------------hello" '
-                       }
-                     }
-                  }
-                }
-            }
-        }
+                        }
+                      }
+                   }
+                 }
+               }
+             }
+         }           
 
         stage('Destroy Terraform'){
             steps{
