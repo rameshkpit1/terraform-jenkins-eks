@@ -43,6 +43,36 @@ pipeline {
                 }
             }
         }
+
+        stage('Apply Terraform'){
+            steps{
+                script{
+                  if (params.APPLY_TERRAFORM{
+                     withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws_credentials_for_eks', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                       dir('EKS'){
+                         sh 'terraform apply'
+                         sh ' echo "welcome----------------hello" '
+                       }
+                     }
+                  }
+                }
+            }
+        }
+
+        stage('Destroy Terraform'){
+            steps{
+                script{
+                  if (params.DESTROY_TERRAFORM){
+                     withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws_credentials_for_eks', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                       dir('EKS'){
+                         sh 'terraform destroy'
+                         sh ' echo "welcome----------------hello" '
+                       }
+                     }
+                  }
+                }
+            }
+        }
         
     }
 }
