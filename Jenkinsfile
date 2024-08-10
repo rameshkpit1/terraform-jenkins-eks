@@ -4,6 +4,7 @@ pipeline {
         //AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         //AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         AWS_DEFAULT_REGION = "us-east-1"
+        cluster_name = 'my-eks-cluster'
     }
     parameters {
             booleanParam(name: 'PLAN_TERRAFORM', defaultValue: false, description: 'Check to plan Terraform changes')
@@ -67,6 +68,21 @@ pipeline {
                        dir('EKS'){
                          sh 'terraform destroy -auto-approve'
                          sh ' echo "welcome----------------hello" '
+                       }
+                     }
+                  }
+                }
+            }
+        }
+
+        stage('Deploy into EKS'){
+            steps{
+                script{
+                  if (params.Deploy){
+                     withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws_credentials_for_eks', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                       dir('EKS/ConfigurationFiles'){
+                         sh 'aws eks update-kubeconfig  --name "${env.cluster_name} '
+                         sh ' kubectl get pods '
                        }
                      }
                   }
