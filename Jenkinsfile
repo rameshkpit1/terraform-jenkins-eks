@@ -29,7 +29,7 @@ pipeline {
             }
         }
 
-        stage('Initializing Terraform'){
+        stage('Planning Terraform'){
             steps{
                 script{
                   if (params.PLAN_TERRAFORM){
