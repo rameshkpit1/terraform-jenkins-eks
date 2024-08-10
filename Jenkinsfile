@@ -4,7 +4,7 @@ pipeline {
         //AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         //AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         AWS_DEFAULT_REGION = "us-east-1"
-        cluster_name = 'my-eks-cluster'
+        cluster_name = "my-eks-cluster"
     }
     parameters {
             booleanParam(name: 'PLAN_TERRAFORM', defaultValue: false, description: 'Check to plan Terraform changes')
