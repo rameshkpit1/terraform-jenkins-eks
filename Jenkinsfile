@@ -57,8 +57,7 @@ pipeline {
                    }
                  }
                }
-             }
-         }           
+             }       
 
         stage('Destroy Terraform'){
             steps{
