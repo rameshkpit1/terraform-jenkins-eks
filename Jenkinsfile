@@ -10,6 +10,7 @@ pipeline {
             booleanParam(name: 'PLAN_TERRAFORM', defaultValue: false, description: 'Check to plan Terraform changes')
             booleanParam(name: 'APPLY_TERRAFORM', defaultValue: false, description: 'Check to apply Terraform changes')
             booleanParam(name: 'DESTROY_TERRAFORM', defaultValue: false, description: 'Check to apply Terraform changes')
+            booleanParam(name: 'EKS_DEPLOY', defaultValue: false, description: 'Check to apply Terraform changes')
     }
     stages {
         stage('Checkout SCM'){
@@ -78,7 +79,7 @@ pipeline {
         stage('Deploy into EKS'){
             steps{
                 script{
-                  if (params.Deploy){
+                  if (params.EKS_DEPLOY){
                      withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws_credentials_for_eks', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                        dir('EKS/ConfigurationFiles'){
                          sh 'aws eks update-kubeconfig  --name "${env.cluster_name} '
