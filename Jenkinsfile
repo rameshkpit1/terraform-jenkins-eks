@@ -50,7 +50,7 @@ pipeline {
                   if (params.APPLY_TERRAFORM){
                      withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws_credentials_for_eks', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                        dir('EKS'){
-                         sh 'terraform apply'
+                         sh 'terraform apply -auto-approve'
                          sh ' echo "welcome----------------hello" '
                         }
                       }
@@ -65,7 +65,7 @@ pipeline {
                   if (params.DESTROY_TERRAFORM){
                      withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws_credentials_for_eks', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                        dir('EKS'){
-                         sh 'terraform destroy'
+                         sh 'terraform destroy -auto-approve'
                          sh ' echo "welcome----------------hello" '
                        }
                      }
